@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Teste iCasei</string>
+    <string name="lorem_ipson_teste">
+        Descrição do vídeo Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </string>
+    <string name="title_video">Titulo do vídeo X</string>
+    <string name="name_channel">Nome do canal</string>
+    <string name="detail_video">Detalhes do vídeo</string>
+    <string name="count_like">x.xxx</string>
+    <string name="count_dislike">x.xxx</string>
+    <string name="count_view">x.xxx</string>
+    <string name="video_not_found">Não encontramos vídeos com o termo buscado.\n\nUtilize outras palavras-chave.</string>
 </resources>
