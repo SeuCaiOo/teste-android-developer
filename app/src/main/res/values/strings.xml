@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Teste iCasei</string>
+
+    <string name="YOUTUBE_API_KEY">AIzaSyCvKRM180hWcGmSnxk_DJdXy4UzgG2BElg</string>
+
     <string name="lorem_ipson_teste">
         Descrição do vídeo Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut

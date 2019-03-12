@@ -1,101 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.detail.VideoDetailActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.detail.VideoDetailActivity">
+
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/imageButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--app:srcCompat="@android:drawable/ic_media_play" />-->
+
+
+    <ProgressBar
+        android:id="@+id/progressBar_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <View
         android:id="@+id/view_video"
-        android:layout_width="363dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/darker_gray"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@android:color/darker_gray" />
 
-
-    <TextView
-        android:id="@+id/txt_description_video"
-        android:layout_width="363dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/txt_name_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+            android:textStyle="bold"
+            tools:text="@string/name_channel" />
+
+        <ImageView android:id="@+id/img_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_like_black_24dp"
+            android:layout_toLeftOf="@id/txt_count_like"/>
+
+
+        <TextView
+            android:id="@+id/txt_count_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textStyle="bold"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/img_dislike"
+            tools:text="@string/count_like" />
+
+
+        <ImageView
+            android:id="@+id/img_dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dislike_black_24dp"
+            android:layout_toLeftOf="@id/txt_count_dislike"/>
+
+
+        <TextView
+            android:id="@+id/txt_count_dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            tools:text="@string/count_dislike" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/view_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_marginTop="8dp"
+        android:scrollbars="vertical">
 
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_name_channel"
-        tools:text="@string/lorem_ipson_teste" />
+        <TextView
+            android:id="@+id/txt_description_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            tools:text="@string/lorem_ipson_teste" />
+    </ScrollView>
 
-    <TextView
-        android:id="@+id/txt_name_channel"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/name_channel"
-        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_video" />
-
-    <TextView
-        android:id="@+id/txt_count_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/count_like"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/txt_count_dislike"
-        app:layout_constraintTop_toBottomOf="@+id/view_video" />
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
 
 
-    <TextView
-        android:id="@+id/txt_count_dislike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/count_dislike"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_video" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_visibility_black_24dp"/>
+
+        <TextView
+            android:id="@+id/txt_count_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            tools:text="@string/count_view" />
 
 
-    <TextView
-        android:id="@+id/txt_count_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/count_view"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_description_video" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_description_video"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_media_play" />
+    </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+
+
+</LinearLayout>

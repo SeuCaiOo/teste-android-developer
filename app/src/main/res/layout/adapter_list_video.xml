@@ -4,15 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container_video"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <View
         android:id="@+id/view_video"
-        android:layout_width="363dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
         android:background="@android:color/darker_gray"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +20,6 @@
         android:id="@+id/txt_title_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="@string/title_video"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
@@ -34,7 +30,6 @@
         android:id="@+id/txt_name_channel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="@string/name_channel"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
@@ -44,11 +39,9 @@
 
     <TextView
         android:id="@+id/txt_description_video"
-        android:layout_width="363dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,9 +52,10 @@
         android:id="@+id/btn_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/detail_video"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_description_video" />
 
