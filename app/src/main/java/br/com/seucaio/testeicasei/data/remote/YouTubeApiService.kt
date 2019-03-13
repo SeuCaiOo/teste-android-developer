@@ -3,6 +3,7 @@ package br.com.seucaio.testeicasei.data.remote
 import br.com.seucaio.testeicasei.Constants
 import br.com.seucaio.testeicasei.data.remote.model.search.ResponseSearch
 import br.com.seucaio.testeicasei.data.remote.model.video.ResponseVideo
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -25,6 +26,7 @@ interface YouTubeApiService {
     fun getSearchVideo(
         @Query("part") part: String,
         @Query("q") q: String,
+        @Query("pageToken") pageToken: String?,
         @Query("key") key: String
     ): Observable<ResponseSearch>
 

@@ -1,6 +1,7 @@
 package br.com.seucaio.testeicasei.ui.list
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,12 @@ class VideoListAdapter(
 
     override fun onBindViewHolder(holder: VideoListViewHolder, position: Int) {
         holder.bind(videos[position], listener)
+
   }
 
 
     override fun getItemCount() = videos.size
+
 
 
     class VideoListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -37,5 +40,9 @@ class VideoListAdapter(
                     txt_description_video.text = video.snippet.description
                     btn_detail.setOnClickListener { listener(video) }
                 }
+    }
+
+    fun testLastItem() {
+
     }
 }

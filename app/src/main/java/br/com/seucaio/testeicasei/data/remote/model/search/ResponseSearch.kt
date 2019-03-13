@@ -9,6 +9,8 @@ data class ResponseSearch(
     val items: List<ItemSearch>,
     @SerializedName("kind")
     val kind: String,
+    @SerializedName("prevPageToken")
+    val prevPageToken: String?,
     @SerializedName("nextPageToken")
     val nextPageToken: String,
     @SerializedName("pageInfo")

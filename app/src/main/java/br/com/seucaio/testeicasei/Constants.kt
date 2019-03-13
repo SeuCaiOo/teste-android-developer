@@ -10,6 +10,7 @@ class Constants {
         const val Q = "Hungria Hip Hop"
         const val Q_ID = "6xIpNmaid8M"
         const val KEY = "AIzaSyABg-gWU1wLb_WuM2bqHr4PZ9Jsj9xJkjY"
+        const val PAGE_TOKEN = "CAUQAA"
 
     }
 }

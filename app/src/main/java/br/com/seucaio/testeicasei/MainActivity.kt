@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     val TAG = MainActivity::class.java.simpleName
 
-    lateinit var subscription: Disposable
+    var subscription: Disposable? = null
 
 
     val service by lazy { YouTubeApiService.create() }
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun testRequestSearch() {
         subscription =  service.getSearchVideo(
-            Constants.PART_SEARCH,Constants.Q, Constants.KEY
+            Constants.PART_SEARCH,Constants.Q, null, Constants.KEY
         )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -89,6 +89,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        subscription.dispose()
+        subscription?.dispose()
     }
 }
