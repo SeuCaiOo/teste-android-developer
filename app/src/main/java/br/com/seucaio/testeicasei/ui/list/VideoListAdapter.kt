@@ -42,7 +42,7 @@ class VideoListAdapter(
                 }
     }
 
-    fun testLastItem() {
+    fun addPages() {
 
     }
 }
