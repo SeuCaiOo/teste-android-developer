@@ -9,7 +9,7 @@ class Constants {
         const val PART_VIDEO = "snippet,statistics"
         const val Q = "Hungria Hip Hop"
         const val Q_ID = "6xIpNmaid8M"
-        const val KEY = "AIzaSyABg-gWU1wLb_WuM2bqHr4PZ9Jsj9xJkjY"
+        const val KEY = "AIzaSyCbMbVo9NYzR4yaNNaSAl5G_OkfMyzKrok"
         const val PAGE_TOKEN = "CAUQAA"
 
     }

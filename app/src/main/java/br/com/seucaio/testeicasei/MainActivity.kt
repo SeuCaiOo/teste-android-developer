@@ -72,18 +72,10 @@ class MainActivity : AppCompatActivity() {
 //
                     startActivity<VideoListActivity>()
 
-//                    Log.v("VIDEOS", "$result")
-//                    Log.v("VIDEOS", "${result.items}")
-//                    Log.v("VIDEOS", "${result.items[1]}")
-//                    Log.v("VIDEOS", "${result.items[1].id}")
-//                    Log.v("VIDEOS", "${result.items[1].snippet}")
-//                    Log.v("VIDEOS", "${result.items[1].snippet.title}")
-//                    Log.v("VIDEOS", "${result.items[1].snippet.description}")
-//                    Log.v("VIDEOS", "${result.items[1].snippet.channelTitle}")
-//                    Log.v("VIDEOS", "${result.pageInfo}")
-
                 },
-                { error -> Log.e("ERROR", error.message) })
+                { error ->
+                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, error.message) })
     }
 
 
