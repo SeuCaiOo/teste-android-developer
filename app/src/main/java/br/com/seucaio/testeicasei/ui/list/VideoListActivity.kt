@@ -12,6 +12,7 @@ import br.com.seucaio.testeicasei.R
 import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
 import br.com.seucaio.testeicasei.ui.detail.VideoDetailActivity
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -103,18 +104,10 @@ class VideoListActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { search ->
-
-                    //                    setTest(search)
-//                    Log.i("MOVIES", "Total = ${search.totalResults}")
-                    Log.i(TAG, "Search -> $search")
-                    Log.i(TAG, "Search -> ${search.prevPageToken}")
-                    Log.i(TAG, "Search -> ${search.nextPageToken}")
-                    Log.i(TAG, "Search -> ${search.pageInfo}")
-                    Log.i(TAG, "Search -> ${search.items}")
+                    Log.i(TAG, "Search Items -> ${search.items}")
                     Log.i(TAG, "Search -> ${search.regionCode}")
 
-                    setRecycler(search.items)
-
+                    getJustVideos(search.items)
 
                 },
                 { error ->
@@ -123,6 +116,27 @@ class VideoListActivity : AppCompatActivity() {
                 }
             )
     }
+
+    private fun getJustVideos(listSearch: List<ItemSearch>?) {
+      val items =
+          Observable.fromIterable(listSearch)
+              .filter { item -> item.id.videoId != null }
+              .toList()
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(
+                  {search ->
+//                      Log.i(TAG, "Search With IdVideo-> $search")
+//                      Log.i(TAG, "Search With IdVideo -> ${search.id.videoId}")
+                      setRecycler(search)
+                  },
+                  {error ->
+                      Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                      Log.e(TAG, error.message)
+                  }
+              )
+    }
+
 
     override fun onPause() {
         super.onPause()
