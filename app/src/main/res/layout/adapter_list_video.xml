@@ -6,15 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/view_video"
+    <com.google.android.youtube.player.YouTubeThumbnailView
+        android:id="@+id/view_video_thumb"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="@android:color/darker_gray"
-        android:padding="16dp"
+        android:layout_height="185dp"
+        tools:src="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!--<ImageView-->
+        <!--android:id="@+id/btn_play"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/view_video_thumb"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/view_video_thumb"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/view_video_thumb"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/view_video_thumb" />-->
 
     <TextView
         android:id="@+id/txt_title_video"
@@ -24,7 +34,7 @@
         android:text="@string/title_video"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_video" />
+        app:layout_constraintTop_toBottomOf="@+id/view_video_thumb" />
 
     <TextView
         android:id="@+id/txt_name_channel"
@@ -53,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/detail_video"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

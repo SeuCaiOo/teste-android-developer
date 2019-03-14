@@ -10,13 +10,13 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class VideoListViewModel: ViewModel() {
+class VideoListViewModel : ViewModel() {
 
     var itemSearchVideoList: Observable<PagedList<ItemSearch>>
 
     private val compositeDisposable = CompositeDisposable()
 
-            private val sourceFactory: VideosDataSourceFactory
+    private val sourceFactory: VideosDataSourceFactory
 
     init {
         sourceFactory = VideosDataSourceFactory(compositeDisposable, YouTubeApiService.create())
@@ -29,12 +29,10 @@ class VideoListViewModel: ViewModel() {
             .build()
 
 
-
         itemSearchVideoList = RxPagedListBuilder(sourceFactory, config)
             .setFetchScheduler(Schedulers.io())
             .buildObservable()
     }
-
 
     override fun onCleared() {
         super.onCleared()

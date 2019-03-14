@@ -6,9 +6,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import br.com.seucaio.testeicasei.Constants
 import br.com.seucaio.testeicasei.R
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
-import com.bumptech.glide.Glide
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubeThumbnailLoader
+import com.google.android.youtube.player.YouTubeThumbnailView
 import kotlinx.android.synthetic.main.adapter_list_video.view.*
 
 
@@ -28,18 +31,11 @@ class VideoListAdapterPaging(
         with(holder) {
             bind(video!!)
             video.let {
-                itemView.setOnClickListener {
-                    listener(video)
-
-                    itemView.btn_detail.setOnClickListener {
-                        listener(video)
-                    }
-                }
+                itemView.setOnClickListener { listener(video) }
+                itemView.btn_detail.setOnClickListener { listener(video) }
             }
         }
-
   }
-
 
     class VideoListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -48,14 +44,43 @@ class VideoListAdapterPaging(
                     txt_title_video.text = video.snippet.title
                     txt_name_channel.text = video.snippet.channelTitle
                     txt_description_video.text = video.snippet.description
-                    Glide.with(context).load(video.snippet.thumbnails.high.url).into(view_video)
-                }
+                    view_video_thumb.initialize(Constants.KEY,
+                        object : YouTubeThumbnailView.OnInitializedListener{
+                            override fun onInitializationSuccess(
+                                youTubeThumbnailView: YouTubeThumbnailView?,
+                                youTubeThumbnailLoader: YouTubeThumbnailLoader?
+                            ) {
+                                youTubeThumbnailLoader?.setVideo(video.id.videoId)
+                                youTubeThumbnailView?.setImageBitmap(null)
 
+                                youTubeThumbnailLoader?.setOnThumbnailLoadedListener(
+                                    object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+                                        override fun onThumbnailLoaded(
+                                            youTubeThumbnailView: YouTubeThumbnailView?,
+                                            s: String?
+                                        ) {
+                                            youTubeThumbnailView?.visibility = View.VISIBLE
+                                            youTubeThumbnailLoader.release()
+                                        }
+
+                                        override fun onThumbnailError(
+                                            youTubeThumbnailView: YouTubeThumbnailView?,
+                                            youTubeThumbnailLoader: YouTubeThumbnailLoader.ErrorReason?
+                                        ) { }
+                                    }
+                                )
+                            }
+
+                            override fun onInitializationFailure(
+                                youTubeThumbnailView: YouTubeThumbnailView?,
+                                youTubeInitializationResult: YouTubeInitializationResult?
+                            ) { }
+                        })
+
+                }
     }
 
-
     companion object {
-
         val videoDiff = object : DiffUtil.ItemCallback<ItemSearch>() {
             override fun areItemsTheSame(old: ItemSearch, new: ItemSearch): Boolean {
                 return old.id == new.id
