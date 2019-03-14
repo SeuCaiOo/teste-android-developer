@@ -9,6 +9,7 @@ import br.com.seucaio.testeicasei.Constants
 import br.com.seucaio.testeicasei.R
 import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.data.remote.model.video.ResponseVideo
+import com.bumptech.glide.Glide
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -31,11 +32,13 @@ class VideoDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_detail)
 
-        val idVideo = intent.getStringExtra("video")
+        val idVideo = intent.getStringExtra("id")
+        val titleVideo = intent.getStringExtra("title")
 
         progressBar_main.visibility = View.VISIBLE
 
-        supportActionBar?.title = "Items ID: $idVideo"
+        supportActionBar?.title = "$titleVideo"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         getVideoById(idVideo)
     }
@@ -79,6 +82,9 @@ class VideoDetailActivity : AppCompatActivity() {
         txt_count_like.text = ft.format(this.statistics.likeCount.toDouble())
         txt_count_dislike.text = ft.format(this.statistics.dislikeCount.toDouble())
         txt_count_view.text = ft.format(this.statistics.viewCount.toDouble())
+        Glide.with(this@VideoDetailActivity).load(this.snippet.thumbnails.high.url)
+            .into(view_video)
+
         progressBar_main.visibility = View.GONE
 
     }

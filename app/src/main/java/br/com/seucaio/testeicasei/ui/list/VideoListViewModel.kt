@@ -22,9 +22,9 @@ class VideoListViewModel: ViewModel() {
         sourceFactory = VideosDataSourceFactory(compositeDisposable, YouTubeApiService.create())
 
         val config = PagedList.Config.Builder()
-            .setPageSize(3)
-            .setInitialLoadSizeHint(7)
-            .setPrefetchDistance(10)
+            .setPageSize(5)
+            .setInitialLoadSizeHint(3)
+            .setPrefetchDistance(2)
             .setEnablePlaceholders(false)
             .build()
 

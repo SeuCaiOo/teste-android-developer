@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity() {
             .subscribe(
                 { result ->
 
-                    startActivity<VideoDetailActivity>("video" to result.items[0].id)
+                    startActivity<VideoDetailActivity>("id" to result.items[0].id,
+                        "title" to result.items[0].snippet.title)
 
 
                     Log.i(TAG, "Video -> ${result.items[0].statistics}")
@@ -61,21 +62,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun testRequestSearch() {
-        subscription =  service.getSearchVideo(
-            Constants.PART_SEARCH,Constants.Q, null, Constants.KEY
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result ->
-//                    initReycler(result)
-//
+//        subscription =  service.getSearchVideo(
+//            Constants.PART_SEARCH,Constants.Q, null, Constants.KEY
+//        )
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                { result ->
+////                    initReycler(result)
+////
                     startActivity<VideoListActivity>()
-
-                },
-                { error ->
-                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-                    Log.e(TAG, error.message) })
+//
+//                },
+//                { error ->
+//                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+//                    Log.e(TAG, error.message) })
     }
 
 

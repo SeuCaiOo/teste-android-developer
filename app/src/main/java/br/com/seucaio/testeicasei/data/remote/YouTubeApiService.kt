@@ -14,28 +14,15 @@ import retrofit2.http.Query
 
 interface YouTubeApiService {
 
-//    @GET("/search")
-//    fun getSearchVideo(
-//        @Query("") part: List<String>,
-//        @Query("") q: String,
-//        @Query("") key: String
-//    ): Observable<ResponseList>
-
 
     @GET("search")
     fun getSearchVideo(
         @Query("part") part: String,
         @Query("q") q: String,
         @Query("pageToken") pageToken: String?,
+        @Query("type") type: String,
         @Query("key") key: String
     ): Observable<ResponseSearch>
-
-//    @GET("videos")
-//    fun getVideoById(
-//        @Query("id") id: String,
-//        @Query("part") part: List<String>,
-//        @Query("key") key: String
-//    ): Observable<ResponseVideo>
 
  @GET("videos")
     fun getVideoById(
