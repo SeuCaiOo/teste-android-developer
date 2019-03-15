@@ -71,15 +71,19 @@ class VideoSearchActivity : AppCompatActivity() {
 
         Log.d(TAG,"---> onCreate")
 
+        swipeRefresh.setOnRefreshListener{ reloadVideos() }
+
         progressBar_main.visibility = View.VISIBLE
 
 
+        val q = intent.getCharSequenceExtra("q")
 
-        qSearch = if (savedInstanceState != null) {
-            savedInstanceState.getCharSequence(KEY_SEARCH)
+        if (q != null) {
+            qSearch = q
         } else {
-            intent.getCharSequenceExtra("q")
+            qSearch = Constants.Q
         }
+
 
         setQuerySearch(qSearch)
         subscribeToList()
@@ -90,6 +94,11 @@ class VideoSearchActivity : AppCompatActivity() {
 
     }
 
+    private fun reloadVideos() {
+        swipeRefresh.isRefreshing = true
+        subscribeToList()
+    }
+
     fun subscribeToList() {
         disposable = viewModel.itemSearchVideoList
             .observeOn(AndroidSchedulers.mainThread())
@@ -97,7 +106,7 @@ class VideoSearchActivity : AppCompatActivity() {
                 { list ->
                     pagedList = list
                     displayView(list.size)
-
+                    swipeRefresh.isRefreshing = false
                     progressBar_main.visibility = View.GONE
                     list.map { item ->
                         Log.i(TAG, "ID Item -> ${item.id.videoId}")
@@ -117,16 +126,9 @@ class VideoSearchActivity : AppCompatActivity() {
         val fragmentList = VideoListFragment()
         val fragmentNotFound = VideoNotFoundFragment()
 
-
-
         if (size != 0) {
-//            setRecycler()
-//            videoListAdapter.submitList(pagedList)
-//
             fragManager.beginTransaction().replace(R.id.frame_search, fragmentList).commit()
         } else {
-
-//            setNotFoundVideo()
             fragManager.beginTransaction().replace(R.id.frame_search, fragmentNotFound).commit()
 
         }
@@ -278,7 +280,23 @@ class VideoSearchActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         disposable?.dispose()
+        Log.d(TAG,"---> onDestroy")
+    }
+
+
+    override fun onStop() {
+        super.onStop()
         Log.d(TAG,"---> onStop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG,"---> onRestart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG,"---> onResume")
     }
 
 }
