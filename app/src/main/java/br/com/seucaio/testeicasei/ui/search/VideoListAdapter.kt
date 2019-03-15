@@ -1,13 +1,12 @@
-package br.com.seucaio.testeicasei.ui.list
+package br.com.seucaio.testeicasei.ui.search
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.seucaio.testeicasei.R
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
-import kotlinx.android.synthetic.main.adapter_list_video.view.*
+import kotlinx.android.synthetic.main.adapter_video_list.view.*
 
 
 class VideoListAdapter(
@@ -16,7 +15,7 @@ class VideoListAdapter(
 ): RecyclerView.Adapter<VideoListAdapter.VideoListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.adapter_list_video, parent, false)
+            .inflate(R.layout.adapter_video_list, parent, false)
 
         return VideoListViewHolder(view)
     }

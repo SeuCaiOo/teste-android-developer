@@ -1,7 +1,5 @@
 package br.com.seucaio.testeicasei
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -9,7 +7,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.ui.detail.VideoDetailActivity
-import br.com.seucaio.testeicasei.ui.list.VideoListActivity
+import br.com.seucaio.testeicasei.ui.search.VideoSearchActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -31,22 +29,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.d(TAG,"---> onCreate")
 
-        btn_test_request_search.setOnClickListener { testRequestSearch() }
-        btn_test_request_video.setOnClickListener { testRequestVideo() }
-
-
-        setupSearch()
+//        btn_test_request_search.setOnClickListener { testRequestSearch() }
+//        btn_test_request_video.setOnClickListener { testRequestVideo() }
     }
 
     private fun setupSearch() {
-
         searchView.queryHint = getString(R.string.search_hint)
+        searchView.setQuery(null, false)
 
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                startActivity<VideoListActivity>("termo" to query)
+                startActivity<VideoSearchActivity>("q" to query)
                 return true
             }
 
@@ -88,17 +84,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun testRequestSearch() {
 //          val termo = editText.text.toString()
-//        startActivity<VideoListActivity>("termo " to termo)
+//        startActivity<VideoSearchActivity>("termo " to termo)
 
 
         val query = searchView.query
-        startActivity<VideoListActivity>("termo" to query)
+        startActivity<VideoSearchActivity>("q" to query)
 
     }
 
 
     override fun onPause() {
         super.onPause()
+        Log.d(TAG,"---> onPause")
         subscription?.dispose()
     }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG,"---> onStart")
+        setupSearch()
+    }
+
+
+
 }

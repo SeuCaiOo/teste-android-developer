@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".ui.list.VideoListActivity">
+    tools:context=".ui.search.VideoSearchActivity">
 
     <ProgressBar
         android:id="@+id/progressBar_main"
@@ -50,7 +50,7 @@
             <!--android:scrollbars="vertical"-->
             <!--tools:layout_editor_absoluteX="51dp"-->
             <!--tools:layout_editor_absoluteY="0dp"-->
-            <!--tools:listitem="@layout/adapter_list_video" />-->
+            <!--tools:listitem="@layout/adapter_video_list" />-->
 
 
 
@@ -64,6 +64,6 @@
         <!--android:scrollbars="vertical"-->
         <!--tools:layout_editor_absoluteX="51dp"-->
         <!--tools:layout_editor_absoluteY="0dp"-->
-        <!--tools:listitem="@layout/adapter_list_video" />-->
+        <!--tools:listitem="@layout/adapter_video_list" />-->
 
 </android.support.constraint.ConstraintLayout>

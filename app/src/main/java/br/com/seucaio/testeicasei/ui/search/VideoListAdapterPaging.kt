@@ -1,4 +1,4 @@
-package br.com.seucaio.testeicasei.ui.list
+package br.com.seucaio.testeicasei.ui.search
 
 import android.arch.paging.PagedListAdapter
 import android.support.v7.util.DiffUtil
@@ -12,7 +12,7 @@ import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubeThumbnailLoader
 import com.google.android.youtube.player.YouTubeThumbnailView
-import kotlinx.android.synthetic.main.adapter_list_video.view.*
+import kotlinx.android.synthetic.main.adapter_video_list.view.*
 
 
 class VideoListAdapterPaging(
@@ -21,7 +21,7 @@ class VideoListAdapterPaging(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.adapter_list_video, parent, false)
+            .inflate(R.layout.adapter_video_list, parent, false)
 
         return VideoListViewHolder(view)
     }

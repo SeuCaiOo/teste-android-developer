@@ -1,13 +1,11 @@
-package br.com.seucaio.testeicasei.ui.list
+package br.com.seucaio.testeicasei.ui.search
 
 import android.app.SearchManager
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedList
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Menu
@@ -17,15 +15,15 @@ import android.widget.Toast
 import br.com.seucaio.testeicasei.Constants
 import br.com.seucaio.testeicasei.R
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
-import br.com.seucaio.testeicasei.ui.ListFragment
-import br.com.seucaio.testeicasei.ui.NotFoundFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_video_list.*
+import kotlinx.android.synthetic.main.activity_video_search.*
 
 
-class VideoListActivity : AppCompatActivity() {
-    val TAG = VideoListActivity::class.java.simpleName
+class VideoSearchActivity : AppCompatActivity() {
+    val TAG = VideoSearchActivity::class.java.simpleName
+
+    private val KEY_SEARCH = ""
 
     private val viewModel: VideoListViewModel by lazy {
         ViewModelProviders.of(this).get(VideoListViewModel::class.java)
@@ -33,6 +31,12 @@ class VideoListActivity : AppCompatActivity() {
 
     var disposable: Disposable? = null
     var qSearch: CharSequence? = null
+
+
+    private var searchView: SearchView? = null
+    private var queryTextListener: SearchView.OnQueryTextListener? = null
+
+
 
     //    lateinit var linearLayoutManager: LinearLayoutManager
 //    private val lastVisibleItemPosition: Int
@@ -63,55 +67,41 @@ class VideoListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_list)
+        setContentView(R.layout.activity_video_search)
+
+        Log.d(TAG,"---> onCreate")
 
         progressBar_main.visibility = View.VISIBLE
 
-        val bundle = intent.extras
-        qSearch = bundle?.getCharSequence("termo")
 
 
-        setQuery(qSearch)
+        qSearch = if (savedInstanceState != null) {
+            savedInstanceState.getCharSequence(KEY_SEARCH)
+        } else {
+            intent.getCharSequenceExtra("q")
+        }
+
+        setQuerySearch(qSearch)
         subscribeToList()
 
 
 //        testSearchQuery(qSearch.toString())
 
-        // Verify the action and get the qSearch
-        if (Intent.ACTION_SEARCH == intent.action) {
-            intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-                qSearch = query
-//                testSearchQuery(query)
-                setQuery(query)
-                subscribeToList()
-            }
-        }
-
 
     }
 
-    private fun subscribeToList() {
+    fun subscribeToList() {
         disposable = viewModel.itemSearchVideoList
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { list ->
-
                     pagedList = list
                     displayView(list.size)
 
                     progressBar_main.visibility = View.GONE
-
-//                    if(list.size != 0) {
-//                    } else {
-//                        setRecycler()
-//                        videoListAdapter.submitList(list)
-//                    }
-
                     list.map { item ->
                         Log.i(TAG, "ID Item -> ${item.id.videoId}")
-//                      list.filter { item.id.videoId != null }
                     }
-//                    getJustVideos(list)
                 },
                 { error ->
                     Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
@@ -124,8 +114,8 @@ class VideoListActivity : AppCompatActivity() {
     private fun displayView(size: Int) {
         val fragManager = supportFragmentManager
 
-        val fragmentList = ListFragment()
-        val fragmentNotFound = NotFoundFragment()
+        val fragmentList = VideoListFragment()
+        val fragmentNotFound = VideoNotFoundFragment()
 
 
 
@@ -146,11 +136,18 @@ class VideoListActivity : AppCompatActivity() {
 
     fun getList() = pagedList
 
-    private fun setQuery(q: CharSequence?) {
+    fun setQuerySearch(q: CharSequence?) {
 
         Constants.Q = q.toString()
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG,"---> onStart")
+    }
+
+
 
 
 /*    private fun setNotFoundVideo() {
@@ -214,6 +211,17 @@ class VideoListActivity : AppCompatActivity() {
 */
 
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+
+        outState?.putCharSequence(KEY_SEARCH, qSearch)
+
+        super.onSaveInstanceState(outState)
+
+        Log.d(TAG,"---> onSaveInstanceState")
+
+    }
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
@@ -226,11 +234,29 @@ class VideoListActivity : AppCompatActivity() {
             setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
             queryHint = getString(R.string.search_hint)
             setQuery(qSearch, false)
+
+
+            queryTextListener = object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    Log.i(TAG, "onQueryTextChange -> $newText")
+                    return false
+                }
+
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    Log.i(TAG, "onQueryTextSubmit -> $query")
+                    progressBar_main.visibility = View.VISIBLE
+                    setQuery(query, false)
+                    setQuerySearch(query)
+                    subscribeToList()
+                    return false
+                }
+
+            }
+            setOnQueryTextListener(queryTextListener)
         }
-
         return true
-
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_search -> {
@@ -246,7 +272,13 @@ class VideoListActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        Log.d(TAG,"---> onPause")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         disposable?.dispose()
+        Log.d(TAG,"---> onStop")
     }
 
 }

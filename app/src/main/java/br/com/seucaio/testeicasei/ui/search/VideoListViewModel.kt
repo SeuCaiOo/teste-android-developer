@@ -1,6 +1,6 @@
-package br.com.seucaio.testeicasei.ui
+package br.com.seucaio.testeicasei.ui.search
 
-import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModel
 import android.arch.paging.PagedList
 import android.arch.paging.RxPagedListBuilder
 import br.com.seucaio.testeicasei.data.datasource.VideosDataSourceFactory
@@ -10,8 +10,8 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class ListViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class VideoListViewModel(
+) : ViewModel() {
 
     var itemSearchVideoList: Observable<PagedList<ItemSearch>>
 
