@@ -2,6 +2,7 @@ package br.com.seucaio.testeicasei.ui.list
 
 import android.app.SearchManager
 import android.arch.lifecycle.ViewModelProviders
+import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,54 +16,50 @@ import android.view.View
 import android.widget.Toast
 import br.com.seucaio.testeicasei.Constants
 import br.com.seucaio.testeicasei.R
-import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
-import br.com.seucaio.testeicasei.data.remote.model.search.ResponseSearch
-import br.com.seucaio.testeicasei.ui.detail.VideoDetailActivity
-import io.reactivex.Observable
+import br.com.seucaio.testeicasei.ui.ListFragment
+import br.com.seucaio.testeicasei.ui.NotFoundFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_video_list.*
-import org.jetbrains.anko.startActivity
+
 
 class VideoListActivity : AppCompatActivity() {
     val TAG = VideoListActivity::class.java.simpleName
-
 
     private val viewModel: VideoListViewModel by lazy {
         ViewModelProviders.of(this).get(VideoListViewModel::class.java)
     }
 
-//    private val adapter: VideoListAdapterPaging by lazy {
+    var disposable: Disposable? = null
+    var qSearch: CharSequence? = null
+
+    //    lateinit var linearLayoutManager: LinearLayoutManager
+//    private val lastVisibleItemPosition: Int
+//        get() = linearLayoutManager.findLastVisibleItemPosition()
+
+    //    private val adapter: VideoListAdapterPaging by lazy {
 //        VideoListAdapterPaging {
 //            startActivity<VideoDetailActivity>()
 //        }
 //    }
 
-
-    lateinit var linearLayoutManager: LinearLayoutManager
-    private val lastVisibleItemPosition: Int
-        get() = linearLayoutManager.findLastVisibleItemPosition()
-
-
-    val service by lazy {
-        YouTubeApiService.create()
-    }
-    var disposable: Disposable? = null
-
-    lateinit var firstPageNext: String
-    lateinit var morePageNext: String
-
-    var qSearch: CharSequence? = null
-
+    //
+//    lateinit var firstPageNext: String
+//    lateinit var morePageNext: String
+    //    val service by lazy {
+//        YouTubeApiService.create()
+//    }
     //    lateinit var itemsListSearchVideo: Observable<List<ItemSearch>>
-    lateinit var itemsNext: Observable<ItemSearch>
-    lateinit var itemCombine: Observable<ItemSearch>
-    lateinit var response: Observable<ResponseSearch>
+//    lateinit var itemsNext: Observable<ItemSearch>
+//    lateinit var itemCombine: Observable<ItemSearch>
+//    lateinit var response: Observable<ResponseSearch>
+//
+//    var videoList = emptyList<ItemSearch>().toMutableList()
+//    lateinit var videoListAdapter: VideoListAdapterPaging
 
-    var videoList = emptyList<ItemSearch>().toMutableList()
-    lateinit var videoListAdapter: VideoListAdapterPaging
+
+    lateinit var pagedList: PagedList<ItemSearch>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,10 +72,7 @@ class VideoListActivity : AppCompatActivity() {
 
 
         setQuery(qSearch)
-
-
         subscribeToList()
-
 
 
 //        testSearchQuery(qSearch.toString())
@@ -96,9 +90,61 @@ class VideoListActivity : AppCompatActivity() {
 
     }
 
-    private fun setNotFoundVideo() {
-        setContentView(R.layout.view_video_not_found)
+    private fun subscribeToList() {
+        disposable = viewModel.itemSearchVideoList
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { list ->
+
+                    pagedList = list
+                    displayView(list.size)
+
+                    progressBar_main.visibility = View.GONE
+
+//                    if(list.size != 0) {
+//                    } else {
+//                        setRecycler()
+//                        videoListAdapter.submitList(list)
+//                    }
+
+                    list.map { item ->
+                        Log.i(TAG, "ID Item -> ${item.id.videoId}")
+//                      list.filter { item.id.videoId != null }
+                    }
+//                    getJustVideos(list)
+                },
+                { error ->
+                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, error.message)
+                    Log.e(TAG, error.message, error)
+                }
+            )
     }
+
+    private fun displayView(size: Int) {
+        val fragManager = supportFragmentManager
+
+        val fragmentList = ListFragment()
+        val fragmentNotFound = NotFoundFragment()
+
+
+
+        if (size != 0) {
+//            setRecycler()
+//            videoListAdapter.submitList(pagedList)
+//
+            fragManager.beginTransaction().replace(R.id.frame_search, fragmentList).commit()
+        } else {
+
+//            setNotFoundVideo()
+            fragManager.beginTransaction().replace(R.id.frame_search, fragmentNotFound).commit()
+
+        }
+
+
+    }
+
+    fun getList() = pagedList
 
     private fun setQuery(q: CharSequence?) {
 
@@ -106,6 +152,16 @@ class VideoListActivity : AppCompatActivity() {
 
     }
 
+
+/*    private fun setNotFoundVideo() {
+        progressBar_main.visibility = View.GONE
+        rv_list_video.visibility = View.INVISIBLE
+        setContentView(R.layout.view_video_not_found)
+
+        txt_video_not_found.visibility = View.VISIBLE
+    }*/
+
+/*
     private fun testSearchQuery(query: String) {
         disposable = service.getSearchVideo(
             Constants.PART_SEARCH, query, null, Constants.TYPE_VIDEO, Constants.KEY
@@ -114,7 +170,7 @@ class VideoListActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
-//                    initReycler(result.items)
+                    //                    initReycler(result.items)
 
 
                 },
@@ -123,8 +179,9 @@ class VideoListActivity : AppCompatActivity() {
                     Log.e(TAG, error.message)
                 })
     }
+*/
 
-    private fun initReycler(results: List<ItemSearch>) {
+/*    private fun initReycler(results: List<ItemSearch>) {
 
         linearLayoutManager = LinearLayoutManager(this)
         rv_list_video.setHasFixedSize(false)
@@ -135,44 +192,11 @@ class VideoListActivity : AppCompatActivity() {
         }
 
         progressBar_main.visibility = View.GONE
-    }
+    }*/
 
-    private fun subscribeToList() {
-        disposable = viewModel.itemSearchVideoList
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { list ->
-
-                    if(list.size == 0) {
-                        setNotFoundVideo()
-                    } else {
-                        setRecycler()
-                        videoListAdapter.submitList(list)
-                    }
-
-
-                    list.map { item ->
-
-                        Log.i(TAG, "ID Item -> ${item.id.videoId}")
-
-//                        list.filter { item.id.videoId != null }
-                    }
-
-//                    getJustVideos(list)
-
-
-
-                },
-                { error ->
-                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-                    Log.e(TAG, error.message)
-                    Log.e(TAG, error.message, error)
-                }
-            )
-    }
-
-
+/*
     private fun setRecycler() {
+
 
         videoListAdapter = VideoListAdapterPaging { video ->
             startActivity<VideoDetailActivity>(
@@ -185,10 +209,9 @@ class VideoListActivity : AppCompatActivity() {
         rv_list_video.layoutManager = llm
         rv_list_video.adapter = videoListAdapter
 
-
-
         progressBar_main.visibility = View.GONE
     }
+*/
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -209,7 +232,6 @@ class VideoListActivity : AppCompatActivity() {
 
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_search -> {
             // User chose the "Settings" item, show the app settings UI...
@@ -221,7 +243,6 @@ class VideoListActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
-
 
     override fun onPause() {
         super.onPause()

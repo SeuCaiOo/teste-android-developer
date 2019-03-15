@@ -1,76 +1,69 @@
 package br.com.seucaio.testeicasei.ui
 
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.paging.PagedList
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import br.com.seucaio.testeicasei.R
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
+import br.com.seucaio.testeicasei.ui.detail.VideoDetailActivity
+import br.com.seucaio.testeicasei.ui.list.VideoListActivity
+import br.com.seucaio.testeicasei.ui.list.VideoListAdapterPaging
+import kotlinx.android.synthetic.main.fragment_list.view.*
+import org.jetbrains.anko.support.v4.startActivity
+
 
 class ListFragment : Fragment() {
 
     val TAG = ListFragment::class.java.simpleName
 
-    var disposable: Disposable? = null
+    lateinit var videoListAdapter: VideoListAdapterPaging
+
+    lateinit var recylcer: RecyclerView
 
     companion object {
         fun newInstance() = ListFragment()
-    }
 
-    private lateinit var viewModel: ListViewModel
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.list_fragment, container, false)
+        val rootView = inflater.inflate(br.com.seucaio.testeicasei.R.layout.fragment_list, container, false)
+
+        val activity = activity as VideoListActivity?
+        recylcer = rootView.rv_list_video
+
+        val myList = activity!!.getList()
+
+        setRecycler(myList)
+
+
+        return rootView
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
-        // TODO: Use the ViewModel
-
-        subscribeToList()
-
-    }
-
-    private fun subscribeToList() {
-        disposable = viewModel.itemSearchVideoList
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { list ->
-
-                    if(list.size == 0) {
-//                        setNotFoundVideo()
-                    } else {
-//                        setRecycler()
-//                        videoListAdapter.submitList(list)
-                    }
 
 
-                    list.map { item ->
+    fun setRecycler(pagedList: PagedList<ItemSearch>) {
 
-                        Log.i(TAG, "ID Item -> ${item.id.videoId}")
-
-//                        list.filter { item.id.videoId != null }
-                    }
-
-//                    getJustVideos(list)
-
-
-
-                },
-                { error ->
-//                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-                    Log.e(TAG, error.message)
-                    Log.e(TAG, error.message, error)
-                }
+        videoListAdapter = VideoListAdapterPaging { video ->
+            startActivity<VideoDetailActivity>(
+                "id" to video.id.videoId,
+                "title" to video.snippet.title
             )
+        }
+
+        val llm = LinearLayoutManager(context)
+        recylcer.layoutManager = llm
+        recylcer.adapter = videoListAdapter
+
+        videoListAdapter.submitList(pagedList)
+
     }
+
 
 }
