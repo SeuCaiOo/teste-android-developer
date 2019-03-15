@@ -42,7 +42,4 @@ class VideoListAdapter(
                 }
     }
 
-    fun addPages() {
-
-    }
 }

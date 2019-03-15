@@ -28,6 +28,7 @@ class VideoListAdapterPaging(
 
     override fun onBindViewHolder(holder: VideoListViewHolder, position: Int) {
         val video = getItem(position)
+
         with(holder) {
             bind(video!!)
             video.let {

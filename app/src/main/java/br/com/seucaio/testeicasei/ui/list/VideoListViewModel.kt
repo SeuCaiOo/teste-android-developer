@@ -6,11 +6,13 @@ import android.arch.paging.RxPagedListBuilder
 import br.com.seucaio.testeicasei.data.datasource.VideosDataSourceFactory
 import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
+import com.google.android.youtube.player.internal.q
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class VideoListViewModel : ViewModel() {
+class VideoListViewModel(
+) : ViewModel() {
 
     var itemSearchVideoList: Observable<PagedList<ItemSearch>>
 

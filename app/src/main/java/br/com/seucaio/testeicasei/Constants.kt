@@ -7,10 +7,11 @@ class Constants {
 
         const val PART_SEARCH = "id,snippet"
         const val PART_VIDEO = "snippet,statistics"
-        const val Q = "Hungria Hip Hop"
+        var Q = ""
+        var FOUND = false
         const val Q_ID = "6xIpNmaid8M"
         const val TYPE_VIDEO = "video"
-        const val KEY = "AIzaSyCkUPB0kNF1nuDn-WdXPpVPTJCdNweONj8"
+        const val KEY = "AIzaSyA9nWHEiyTm-0-SIxst8jCX5DQHG_qUGhM"
         const val PAGE_TOKEN = "CAUQAA"
 
     }

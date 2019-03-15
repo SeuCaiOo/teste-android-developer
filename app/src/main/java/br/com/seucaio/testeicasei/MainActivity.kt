@@ -1,8 +1,11 @@
 package br.com.seucaio.testeicasei
 
-import android.support.v7.app.AppCompatActivity
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.SearchView
 import android.widget.Toast
 import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.ui.detail.VideoDetailActivity
@@ -12,6 +15,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +34,27 @@ class MainActivity : AppCompatActivity() {
 
         btn_test_request_search.setOnClickListener { testRequestSearch() }
         btn_test_request_video.setOnClickListener { testRequestVideo() }
+
+
+        setupSearch()
+    }
+
+    private fun setupSearch() {
+
+        searchView.queryHint = getString(R.string.search_hint)
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                startActivity<VideoListActivity>("termo" to query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                return false
+            }
+        })
     }
 
     private fun testRequestVideo() {
@@ -53,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                     Log.i(TAG, "Video -> ${result.items[0].statistics.dislikeCount}")
                     Log.i(TAG, "Video -> $result")
 
-                             },
+                },
                 { error ->
                     Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
                     Log.e(TAG, error.message)
@@ -62,21 +87,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun testRequestSearch() {
-//        subscription =  service.getSearchVideo(
-//            Constants.PART_SEARCH,Constants.Q, null, Constants.KEY
-//        )
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                { result ->
-////                    initReycler(result)
-////
-                    startActivity<VideoListActivity>()
-//
-//                },
-//                { error ->
-//                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-//                    Log.e(TAG, error.message) })
+//          val termo = editText.text.toString()
+//        startActivity<VideoListActivity>("termo " to termo)
+
+
+        val query = searchView.query
+        startActivity<VideoListActivity>("termo" to query)
+
     }
 
 

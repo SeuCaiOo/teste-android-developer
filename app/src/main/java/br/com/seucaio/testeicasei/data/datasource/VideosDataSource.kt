@@ -3,6 +3,7 @@ package br.com.seucaio.testeicasei.data.datasource
 import android.arch.paging.PageKeyedDataSource
 import android.util.Log
 import br.com.seucaio.testeicasei.Constants
+import br.com.seucaio.testeicasei.MainActivity
 import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
 import io.reactivex.disposables.CompositeDisposable
@@ -41,6 +42,13 @@ class VideosDataSource(
         initialCallback: LoadInitialCallback<String, ItemSearch>?,
         callback: LoadCallback<String, ItemSearch>?
     ) {
+
+
+//
+//        val q =
+
+
+
         compositeDisposable.add(
             youTubeApi.getSearchVideo(
                 Constants.PART_SEARCH, Constants.Q, pageToken, Constants.TYPE_VIDEO, Constants.KEY

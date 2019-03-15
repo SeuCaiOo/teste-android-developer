@@ -5,7 +5,8 @@ import br.com.seucaio.testeicasei.data.remote.YouTubeApiService
 import br.com.seucaio.testeicasei.data.remote.model.search.ItemSearch
 import io.reactivex.disposables.CompositeDisposable
 
-class VideosDataSourceFactory(private val compositeDisposable: CompositeDisposable,
+class VideosDataSourceFactory(
+    private val compositeDisposable: CompositeDisposable,
                               private val youTubeApi: YouTubeApiService)
     : DataSource.Factory<String, ItemSearch>() {
 
