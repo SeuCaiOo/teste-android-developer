@@ -7,8 +7,7 @@ class Constants {
 
         const val PART_SEARCH = "id,snippet"
         const val PART_VIDEO = "snippet,statistics"
-        var Q = ""
-        var FOUND = false
+        var Q = "Hungria Hip Hop"
         const val Q_ID = "6xIpNmaid8M"
         const val TYPE_VIDEO = "video"
         const val KEY = "AIzaSyA9nWHEiyTm-0-SIxst8jCX5DQHG_qUGhM"
